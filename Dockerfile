@@ -1,6 +1,9 @@
 # Nginx tabanlı lightweight container
 FROM nginx:alpine
 
+# Curl'u install et (healthcheck için gerekli)
+RUN apk add --no-cache curl
+
 # HTML dosyasını nginx'in serve directory'sine kopyala
 COPY btc_futures_signals.html /usr/share/nginx/html/index.html
 
