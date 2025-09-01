@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  btc-signals:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: btc-futures-signals
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "coolify.managed=true"
+      - "coolify.name=btc-futures-signals"
+      - "coolify.description=Bitcoin Futures SuperTrend Signals Dashboard"
+    networks:
+      - btc-signals-network
+
+networks:
+  btc-signals-network:
+    driver: bridge
